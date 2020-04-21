@@ -12,9 +12,12 @@ import java.util.List;
 public class EditDataAsync extends AsyncTask<Data,Void, List<Data>> {
     private AppDatabase db;
     private DataAsync.CallBackData callBackData;
-    public  EditDataAsync(AppDatabase db , DataAsync.CallBackData callBackData ){
+    public int id;
+    public  EditDataAsync(AppDatabase db , DataAsync.CallBackData callBackData){
         this.db=db;
         this.callBackData=callBackData;
+        this.id=id;
+
     }
 
     @Override
@@ -24,10 +27,11 @@ public class EditDataAsync extends AsyncTask<Data,Void, List<Data>> {
 
     @Override
     protected List<Data> doInBackground(Data... data) {
-        for (Data d : data){
-            db.dataDao().updataData(d);
-        }
+        for (Data d: data){
+        db.dataDao().updataData(d);
+    }
         return  db.dataDao().getDatas();
+
     }
 
     @Override

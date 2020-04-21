@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             DelDataAsync del=new DelDataAsync(db,callBackData);
             del.execute(data);
             }
-
         };
 
         DataAdapter adapter = new DataAdapter(o);
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             add.execute((Data) data.getSerializableExtra("data"));
         } else if (requestCode == EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             EditDataAsync edit =new EditDataAsync(db,callBackData);
-            edit.execute((Data) data.getSerializableExtra("data"));
+            edit.execute( (Data) data.getSerializableExtra("data"));
         }
 
 

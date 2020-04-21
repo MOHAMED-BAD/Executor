@@ -36,6 +36,7 @@ public class AddData extends AppCompatActivity {
                 if (data != null) {
                     Intent intent = new Intent();
                     intent.putExtra("data", data);
+                    intent.putExtra("position",getIntent().hasExtra("position"));
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }

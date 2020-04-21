@@ -15,12 +15,14 @@ import java.io.Serializable;
 
 @Entity(tableName = "MyData")
 public class Data implements Serializable {
+
     @ColumnInfo(name = "Name")
     private String name;
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     @ColumnInfo(name = "Number")
     private String number;
+
 public Data(String name, String number) {
         this.name = name;
         this.number = number;
