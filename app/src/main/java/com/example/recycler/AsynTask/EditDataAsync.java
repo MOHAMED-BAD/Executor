@@ -3,20 +3,20 @@ package com.example.recycler.AsynTask;
 import android.os.AsyncTask;
 
 
+import androidx.room.Update;
+
 import com.example.recycler.AsynTask.DataAsync;
 import com.example.recycler.Data;
 import com.example.recycler.Database.AppDatabase;
 
 import java.util.List;
 
-public class EditDataAsync extends AsyncTask<Data,Void, List<Data>> {
+public class EditDataAsync extends AsyncTask<Data,Integer, List<Data>> {
     private AppDatabase db;
     private DataAsync.CallBackData callBackData;
-    public int id;
     public  EditDataAsync(AppDatabase db , DataAsync.CallBackData callBackData){
         this.db=db;
         this.callBackData=callBackData;
-        this.id=id;
 
     }
 
@@ -28,10 +28,14 @@ public class EditDataAsync extends AsyncTask<Data,Void, List<Data>> {
     @Override
     protected List<Data> doInBackground(Data... data) {
         for (Data d: data){
-        db.dataDao().updataData(d);
+            db.dataDao().updataData(d);
     }
         return  db.dataDao().getDatas();
+    }
 
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values[0]);
     }
 
     @Override

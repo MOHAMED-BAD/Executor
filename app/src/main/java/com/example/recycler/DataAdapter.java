@@ -25,6 +25,7 @@ public class DataAdapter extends ListAdapter<Data,DataAdapter.ContactViewHolder>
         public boolean areContentsTheSame(@NonNull Data oldItem, @NonNull Data newItem) {
             return oldItem.getName().equals(newItem.getName());
         }
+
     };
 
     public DataAdapter(OnDataClicked onItemClickedListener) {

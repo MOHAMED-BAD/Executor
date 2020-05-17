@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     final int ADD_REQUEST_CODE = 1;
     final int EDIT_REQUEST_CODE = 2;
     AppDatabase db ;
-
     DataAsync.CallBackData callBackData=new DataAsync.CallBackData() {
         @Override
         public void getCallBack(List<Data> Datas) {
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             del.execute(data);
             }
         };
-
         DataAdapter adapter = new DataAdapter(o);
 
     @Override

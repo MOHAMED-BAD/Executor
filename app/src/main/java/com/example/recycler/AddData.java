@@ -11,16 +11,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class AddData extends AppCompatActivity {
     private EditText addName;
     private EditText addNumber;
-
+    Data data ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_data);
         initView();
         if (getIntent().hasExtra("data")) {
-            Data contact = (Data) getIntent().getSerializableExtra("data");
-            addName.setText(contact.getName());
-             addNumber.setText(contact.getNumber());
+             data = (Data) getIntent().getSerializableExtra("data");
+             addName.setText(data.getName());
+             addNumber.setText(data.getNumber());
         }
     }
 
@@ -32,11 +32,14 @@ public class AddData extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Data data = creatData(addName.getText().toString(), addNumber.getText().toString());
+               int id=0;
+                if(data!=null){
+                    id=data.getId();
+                }
+                Data data = creatData(addName.getText().toString(),addNumber.getText().toString(),id);
                 if (data != null) {
                     Intent intent = new Intent();
                     intent.putExtra("data", data);
-                    intent.putExtra("position",getIntent().hasExtra("position"));
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
@@ -44,7 +47,7 @@ public class AddData extends AppCompatActivity {
         });
     }
 
-    private Data creatData(String name, String number ) {
+    private Data creatData(String name, String number ,int id) {
         boolean invalid = false;
         if (name == null || name.isEmpty()) {
             invalid = true;
@@ -54,7 +57,10 @@ public class AddData extends AppCompatActivity {
             invalid = true;
             addNumber.setError("ادخل رقم من فضلك ");
         }
-        if (invalid) return null;
-        else return new Data(name, number);
+        if (invalid)
+        {
+            return null;}
+   else
+            return new Data(name,number,id);
     }
 }

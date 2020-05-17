@@ -15,8 +15,9 @@ public interface DataDao {
     List<Data> getDatas();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertData(Data data);
+
     @Update
-    void updataData(Data data);
+    void updataData(Data data );
     @Delete
     void delete(Data data);
 
