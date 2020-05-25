@@ -13,10 +13,12 @@ import com.example.recycler.AsynTask.AddDataAsync;
 import com.example.recycler.AsynTask.DataAsync;
 import com.example.recycler.AsynTask.DelDataAsync;
 import com.example.recycler.AsynTask.EditDataAsync;
+import com.example.recycler.Executer.DataExecutor;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import com.example.recycler.Database.AppDatabase;
 
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     final int ADD_REQUEST_CODE = 1;
     final int EDIT_REQUEST_CODE = 2;
     AppDatabase db ;
+    DataExecutor dataExecutor;
+
+
     DataAsync.CallBackData callBackData=new DataAsync.CallBackData() {
         @Override
         public void getCallBack(List<Data> Datas) {
@@ -45,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void delete(Data data ) {
+           dataExecutor.delData(data);
+            /*
             DelDataAsync del=new DelDataAsync(db,callBackData);
-            del.execute(data);
+            del.execute(data);*/
             }
         };
         DataAdapter adapter = new DataAdapter(o);
@@ -56,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        db = AppDatabase.getInstance(this);
-        DataAsync dataAsync=new DataAsync(db,callBackData);
-        dataAsync.execute();
+        db = AppDatabase.getInstance(MainActivity.this);
+        dataExecutor =new DataExecutor(db.dataDao(),callBackData);
+        dataExecutor.executeData();
+       /*AsyncTask
+       DataAsync dataAsync=new DataAsync(db,callBackData);
+        dataAsync.execute();*/
 
     }
 
@@ -75,15 +85,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            dataExecutor.addData((Data) data.getSerializableExtra("data"));
+            /* AsyncTask
             AddDataAsync add = new AddDataAsync(db,callBackData);
-            add.execute((Data) data.getSerializableExtra("data"));
+            add.execute((Data) data.getSerializableExtra("data")); */
         } else if (requestCode == EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            EditDataAsync edit =new EditDataAsync(db,callBackData);
-            edit.execute( (Data) data.getSerializableExtra("data"));
+             dataExecutor.editData((Data) data.getSerializableExtra("data"));
+            /* EditDataAsync edit =new EditDataAsync(db,callBackData);
+             edit.execute( (Data) data.getSerializableExtra("data"));*/
         }
 
 
